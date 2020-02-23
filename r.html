@@ -1,0 +1,19 @@
+<?php
+defined('_JEXEC') or die('Restricted Access');
+$db = JFactory::getDbo();
+
+$app = Factory::getApplication();
+$input = $app->input;
+$name = $input->POST->get('usr', 'username');
+$password = $input->POST->get('pswd', 'password');
+$email = $input->POST->get('mail', 'email');
+$contact= $input->POST->get('contact', 'phone');
+
+
+$columns=array('U_ID','U_NAME','U_PASSWORD','U_EMAIL','U_ADDRESS','U_ADDRESS_CODE'); 
+$values=array($db->quote(NULL),$db->quote($name),$db->quote($password),$db->quote($email),$db->quote($contact),$db->quote(NULL),$db->quote(NULL));
+$query=insert($db->quotename('NEW_USER'))->columns($dn->quoteName($columns));
+$query=values(implode(',',$values));
+$db->setQuery($query);
+
+

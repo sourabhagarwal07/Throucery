@@ -1,0 +1,115 @@
+<html>
+    <head>
+            
+            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+            <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
+            
+            <style>
+                .f_sup
+                {
+                    background-color: darkgray;
+                    border-radius:5px;
+                }
+                .form-group,#form_submit{
+                    margin:10px;
+                    border-radius:5px;
+                }
+
+            </style>
+            <script>
+                    var pwd=document.getElementById("pswd");
+                    var c_pwd=document.getElementById("c_pswd");
+                    function password_check()
+                    {
+                        if (pwd!=c_pwd)
+                        {
+                            document.getElementById("result").innerHTML="Password Mismatched";
+                            document.getElementById("result").style.color="Red";
+                        }
+                        else
+                        {
+                            document.getElementById("result").innerHTML="Password Matched";
+                            document.getElementById("result").style.color="green";
+                        }
+                    }
+            </script>
+        </head>
+    <body ng-app="">
+        <p> New shoppers, Want to access the full benefits of the throucery</p>
+        <p>Register Now!!!</p>
+        
+        
+           <div class="container">
+                <form method="POST" action="<?php echo $_SERVER["PHP_SELF"];?>" class="f_sup" >
+                  <div class="form-group">
+                    <label for="usr">Name:</label>
+                    <input type="text" class="form-control" id="usr" name="username">
+                  </div>
+                  <div class="form-group">
+                    <label for="pswd">Password:</label>
+                    <input type="password" ng-model="password" class="form-control" id="pswd" name="password">
+                  </div>
+                  <div class="form-group">
+                        <label for="c_pswd">Confirm Password:</label>
+                        <input ng-model="cnf_password" type="password" class="form-control" id="c_pswd" name="password">
+                        <span ng-if="(cnf_password==password)" style="color:green;">password Matched</span>
+                    </div>
+                  <div class="form-group">
+                        <label for="mail">Email:</label>
+                        <input type="email" class="form-control" placeholder="Your Email" id="mail" name="email">
+                  </div>
+                    <div class="form-group">
+                        <label for="number">Contact:</label>
+                        <input type="text" class="form-control" id="contact" name="phone">
+                    </div>
+
+                  <button type="submit" class="btn btn-primary" id="form_submit" onsubmit="password_check()">Submit</button>
+                </form>
+            </diV>
+
+        <a href="https://throucery.joomla.com/index.php/products">click me!!</a>
+        <p id="result"></p>
+        
+        <?php
+       
+        if(isset($_POST['submit']))
+        {
+        defined('_JEXEC') or die('Restricted Access');
+        $db = JFactory::getDbo();
+        
+        $app = Factory::getApplication();
+        $input = $app->input;
+        $name = $input->POST->get('username', 'username');
+        $password = $input->POST->get('password', 'password');
+        $email = $input->POST->get('email', 'email');
+        $contact= $input->POST->get('phone', 'phone');
+        
+        
+        $profile = new stdClass();
+        $profile->U_NAME = $name;
+        $profile->U_PASSWORD = $password;
+        $profile->U_EMAIL = $email;
+        $profile->U_NUMBER = $contact;
+        $profile->U_ADDRESS = 'NULL';
+        $profile->U_ADDRESS_CODE = 'NULL';
+        $result = JFactory::getDbo()->insertObject('NEW_USER', $profile);
+
+        echo "User Created" ;
+        }
+        
+        
+
+?>
+
+
+
+
+
+
+
+
+
+        
+        
+    </body>
+</html>
